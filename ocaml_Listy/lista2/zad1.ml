@@ -7,7 +7,8 @@
 
         let fib_iter n =
             let rec aux i a b =
-                (* i – aktualny indeks, a – F_i, b – F_{i+1} *)
+                (* i – aktualny indeks, 
+                 a – F_i, b – F_{i+1} *)
                 if i = n then a
                 else aux (i + 1) b (a + b)
             in
