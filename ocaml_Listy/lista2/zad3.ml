@@ -8,6 +8,6 @@ let rec matrix_expt_fast m k =
 
 let fib_fast k =
   let fib_m = (1., 1., 1., 0.) in
-  let (a, b, _, _) = matrix_expt_fast fib_m k in
+  let (a, b, _, _) = matrix_expt_fast fib_m k in b;;
   (* a = F_{k+1}, b = F_k *)
-  b;;
+  
