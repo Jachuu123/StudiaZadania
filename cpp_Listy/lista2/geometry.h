@@ -4,7 +4,6 @@
 #include <stdexcept>
 #include <cmath>
 
-// Forward declarations
 class Line;
 class Point;
 class Vector;
@@ -30,21 +29,17 @@ public:
     void setX(double xVal);
     void setY(double yVal);
 
-    // Przekształcenia izometryczne:
-    // 1) Translacja (przesunięcie o wektor dx, dy)
+
     void translate(double dx, double dy);
 
-    // 2) Obrót wokół zadanego punktu o kąt w radianach
     void rotate(double angle, const Point &center);
 
-    // 3) Symetria środkowa względem punktu
     void centralSymmetry(const Point &center);
 
-    // 4) Symetria osiowa względem prostej (Line)
     void axisSymmetry(const Line &line);
 };
 
-// Funkcja globalna do liczenia odległości między dwoma punktami
+
 double distance(const Point &p1, const Point &p2);
 
 // ----- Klasa Vector -----
@@ -78,7 +73,7 @@ private:
 
 public:
     // Konstruktory
-    Line();               // bezargumentowy
+    Line();
     Line(double AVal, double BVal, double CVal);
 
     // Gettery
@@ -112,32 +107,24 @@ public:
     void setCenter(const Point &c);
     void setRadius(double r);
 
-    // Przekształcenia izometryczne (zachowują kształt i rozmiar):
-    // 1) Translacja
     void translate(double dx, double dy);
 
-    // 2) Obrót wokół zadanego punktu o kąt (w radianach)
     void rotate(double angle, const Point &centerOfRotation);
 
-    // 3) Symetria środkowa względem punktu
     void centralSymmetry(const Point &centerOfSym);
 
-    // 4) Symetria osiowa względem prostej (Line)
     void axisSymmetry(const Line &line);
 
-    // Funkcje obliczeniowe
-    double circumference() const; // obwód
-    double area() const;         // pole powierzchni
 
-    // Funkcja sprawdzająca, czy punkt należy do koła
+    double circumference() const;
+    double area() const;
+
     bool contains(const Point &p) const;
 };
 
-// Funkcje globalne do pracy z kołami:
-// 1) Sprawdza, czy kolo c1 zawiera się w c2
+
 bool circleInside(const Circle &c1, const Circle &c2);
 
-// 2) Sprawdza, czy koła c1 i c2 są rozłączne
 bool circlesAreDisjoint(const Circle &c1, const Circle &c2);
 
 #endif // GEOMETRY_H

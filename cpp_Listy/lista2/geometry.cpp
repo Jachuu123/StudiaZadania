@@ -20,6 +20,8 @@ void Point::rotate(double angle, const Point &center) {
     double s = sin(angle);
     double c = cos(angle);
 
+    //pomoc wzór chat
+
     // Translate point back to origin
     double xNew = x - center.getX();
     double yNew = y - center.getY();
@@ -42,6 +44,8 @@ void Point::axisSymmetry(const Line &line) {
     double A = line.getA();
     double B = line.getB();
     double C = line.getC();
+
+    //pomoc wzór chat
 
     double D = A * A + B * B;
     double xNew = (B * B * x - A * B * y - A * C) / D;
