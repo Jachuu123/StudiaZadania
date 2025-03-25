@@ -32,7 +32,8 @@ private:
 
 public:
     // Konstruktory
-    Queue(int capacity = 1);
+    Queue();
+    explicit Queue(int capacity);
     Queue(const Queue &q);
     Queue(Queue &&q) noexcept;
     Queue(std::initializer_list<Point> initList);
