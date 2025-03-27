@@ -32,6 +32,7 @@ private:
 
 public:
     // Konstruktory
+    Queue();
     Queue(int capacity = 1);
     Queue(const Queue &q);
     Queue(Queue &&q) noexcept;
