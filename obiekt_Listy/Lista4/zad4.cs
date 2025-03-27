@@ -199,9 +199,30 @@ public class And : Formula
     public And(Formula lewa, Formula prawa)
     {
         this.lewa = lewa;
-        this.prawa = prawa;
+        this.pr    public override bool Equals(object obj)
+    {
+        if (obj is And other)
+        {
+            return lewa.Equals(other.lewa) && prawa.Equals(other.prawa);
+        }
+        return false;
+    }awa = prawa;
+    }    public override bool Equals(object obj)
+    {
+        if (obj is And other)
+        {
+            return lewa.Equals(other.lewa) && prawa.Equals(other.prawa);
+        }
+        return false;
     }
-
+    public override bool Equals(object obj)
+    {
+        if (obj is And other)
+        {
+            return lewa.Equals(other.lewa) && prawa.Equals(other.prawa);
+        }
+        return false;
+    }
     public override bool Oblicz(Dictionary<string, bool> slownik)
     {
         return lewa.Oblicz(slownik) && prawa.Oblicz(slownik);

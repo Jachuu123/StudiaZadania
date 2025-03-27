@@ -33,7 +33,11 @@ private:
 public:
     // Konstruktory
     Queue();
+<<<<<<< HEAD
     explicit Queue(int capacity);
+=======
+    Queue(int capacity = 1);
+>>>>>>> cfc99e8 (cpp lista3)
     Queue(const Queue &q);
     Queue(Queue &&q) noexcept;
     Queue(std::initializer_list<Point> initList);

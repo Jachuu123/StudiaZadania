@@ -29,13 +29,18 @@ void Point::setY(double yVal) {
 
 // Implementacja klasy Queue
 
-Queue::Queue(int capacity) : capacity(capacity), front(0), count(0) {
+// delegatowy, bezparametrowy i z zadaną pojemnością
+Queue::Queue(int capacity = 1) : capacity(capacity), front(0), count(0) {
     points = new Point[capacity];
     //std::cout << "Queue created with capacity " << capacity << std::endl;
 }
 
+<<<<<<< HEAD
 // Konstruktor delegacyjny
 Queue::Queue() : Queue(1) {}
+=======
+Queue:Queue() 
+>>>>>>> cfc99e8 (cpp lista3)
 
 // Konstruktor kopiujący
 Queue::Queue(const Queue &q) : Queue(q.capacity) {
