@@ -1,0 +1,40 @@
+# dune build
+# OCAMLPARAM: unset
+# Shared cache: enabled-except-user-rules
+# Shared cache location: /root/.cache/dune/db
+# Workspace root: /root/studiaZadania/ocaml_Listy/lista5/calc
+# Auto-detected concurrency: 12
+# Dune context:
+#  { name = "default"
+#  ; kind = "default"
+#  ; profile = Dev
+#  ; merlin = true
+#  ; fdo_target_exe = None
+#  ; build_dir = In_build_dir "default"
+#  ; instrument_with = []
+#  }
+$ /usr/bin/ocamlc.opt -config > /tmp/dune_479a5f_output
+$ (cd _build/default && /usr/bin/ocamllex -q -o src/lexer.ml src/lexer.mll)
+$ (cd _build/default && /usr/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -w -49 -nopervasives -nostdlib -g -bin-annot -I src/.calc.objs/byte -no-alias-deps -opaque -o src/.calc.objs/byte/calc.cmo -c -impl src/calc.ml-gen)
+$ (cd _build/.sandbox/c47b7d5a53b5e43d35aa5d5e113c9f0c/default && /root/.opam/default/bin/menhir src/parser.mly --base src/parser --infer-write-query src/parser__mock.ml.mock)
+$ (cd _build/default && /usr/bin/ocamldep.opt -modules -impl src/ast.ml) > _build/default/src/.calc.objs/calc__Ast.impl.d
+$ (cd _build/default && /usr/bin/ocamldep.opt -modules -impl src/main.ml) > _build/default/src/.calc.objs/calc__Main.impl.d
+$ (cd _build/default && /usr/bin/ocamldep.opt -modules -impl src/lexer.ml) > _build/default/src/.calc.objs/calc__Lexer.impl.d
+$ (cd _build/default && /usr/bin/ocamldep.opt -modules -impl src/parser__mock.ml.mock) > _build/default/src/.calc.objs/parser__mock.impl.d
+$ (cd _build/default && /usr/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -I src/.calc.objs/byte -no-alias-deps -opaque -open Calc -o src/.calc.objs/byte/calc__Ast.cmo -c -impl src/ast.ml)
+$ (cd _build/default && /usr/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -w -49 -nopervasives -nostdlib -g -I src/.calc.objs/byte -I src/.calc.objs/native -intf-suffix .ml-gen -no-alias-deps -opaque -o src/.calc.objs/native/calc.cmx -c -impl src/calc.ml-gen)
+$ (cd _build/.sandbox/8a289212a7510ba581ad0491f186d79c/default && /usr/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I src/.calc.objs/byte -open Calc -short-paths -i -impl src/parser__mock.ml.mock) > _build/.sandbox/8a289212a7510ba581ad0491f186d79c/default/src/parser__mock.mli.inferred
+$ (cd _build/default && /usr/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I src/.calc.objs/byte -I src/.calc.objs/native -intf-suffix .ml -no-alias-deps -opaque -open Calc -o src/.calc.objs/native/calc__Ast.cmx -c -impl src/ast.ml)
+$ (cd _build/.sandbox/5af94c88e5ee8fa79fc4b9ab9d50d640/default && /root/.opam/default/bin/menhir src/parser.mly --base src/parser --infer-read-reply src/parser__mock.mli.inferred)
+$ (cd _build/default && /usr/bin/ocamldep.opt -modules -intf src/parser.mli) > _build/default/src/.calc.objs/calc__Parser.intf.d
+$ (cd _build/default && /usr/bin/ocamldep.opt -modules -impl src/parser.ml) > _build/default/src/.calc.objs/calc__Parser.impl.d
+$ (cd _build/default && /usr/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -I src/.calc.objs/byte -no-alias-deps -opaque -open Calc -o src/.calc.objs/byte/calc__Parser.cmi -c -intf src/parser.mli)
+$ (cd _build/default && /usr/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -I src/.calc.objs/byte -no-alias-deps -opaque -open Calc -o src/.calc.objs/byte/calc__Lexer.cmo -c -impl src/lexer.ml)
+$ (cd _build/default && /usr/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -I src/.calc.objs/byte -no-alias-deps -opaque -open Calc -o src/.calc.objs/byte/calc__Main.cmo -c -impl src/main.ml)
+$ (cd _build/default && /usr/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -bin-annot -I src/.calc.objs/byte -intf-suffix .ml -no-alias-deps -opaque -open Calc -o src/.calc.objs/byte/calc__Parser.cmo -c -impl src/parser.ml)
+$ (cd _build/default && /usr/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I src/.calc.objs/byte -I src/.calc.objs/native -intf-suffix .ml -no-alias-deps -opaque -open Calc -o src/.calc.objs/native/calc__Lexer.cmx -c -impl src/lexer.ml)
+$ (cd _build/default && /usr/bin/ocamlc.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -a -o src/calc.cma src/.calc.objs/byte/calc.cmo src/.calc.objs/byte/calc__Ast.cmo src/.calc.objs/byte/calc__Parser.cmo src/.calc.objs/byte/calc__Lexer.cmo src/.calc.objs/byte/calc__Main.cmo)
+$ (cd _build/default && /usr/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I src/.calc.objs/byte -I src/.calc.objs/native -intf-suffix .ml -no-alias-deps -opaque -open Calc -o src/.calc.objs/native/calc__Parser.cmx -c -impl src/parser.ml)
+$ (cd _build/default && /usr/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I src/.calc.objs/byte -I src/.calc.objs/native -intf-suffix .ml -no-alias-deps -opaque -open Calc -o src/.calc.objs/native/calc__Main.cmx -c -impl src/main.ml)
+$ (cd _build/default && /usr/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -a -o src/calc.cmxa src/.calc.objs/native/calc.cmx src/.calc.objs/native/calc__Ast.cmx src/.calc.objs/native/calc__Parser.cmx src/.calc.objs/native/calc__Lexer.cmx src/.calc.objs/native/calc__Main.cmx)
+$ (cd _build/default && /usr/bin/ocamlopt.opt -w @1..3@5..28@31..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -shared -linkall -I src -o src/calc.cmxs src/calc.cmxa)

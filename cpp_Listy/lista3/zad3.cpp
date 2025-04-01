@@ -4,6 +4,7 @@
 
 // Implementacja klasy Point
 
+
 Point::Point() : x(0), y(0) {}
 
 Point::Point(double xVal, double yVal) : x(xVal), y(yVal) {}
@@ -24,43 +25,64 @@ void Point::setY(double yVal) {
     y = yVal;
 }
 
+
+
 // Implementacja klasy Queue
 
 // delegatowy, bezparametrowy i z zadaną pojemnością
 Queue::Queue(int capacity = 1) : capacity(capacity), front(0), count(0) {
     points = new Point[capacity];
+    //std::cout << "Queue created with capacity " << capacity << std::endl;
 }
 
+<<<<<<< HEAD
 Queue:Queue() 
 
 //kopiowanie
 Queue::Queue(const Queue &q) : capacity(q.capacity), front(q.front), count(q.count) {
     points = new Point[capacity];
+=======
+<<<<<<< HEAD
+// Konstruktor delegacyjny
+Queue::Queue() : Queue(1) {}
+=======
+Queue:Queue() 
+>>>>>>> cfc99e8 (cpp lista3)
+
+// Konstruktor kopiujący
+Queue::Queue(const Queue &q) : Queue(q.capacity) {
+    front = q.front;
+    count = q.count;
+>>>>>>> 5c0c3601b2989d00bf8e6a5e9e9398d748074a8d
     for (int i = 0; i < count; ++i) {
         points[i] = q.points[i];
     }
 }
 
-//przenoszenie
-Queue::Queue(Queue &&q) noexcept : points(q.points), capacity(q.capacity), front(q.front), count(q.count) {
-    q.points = nullptr;
-    q.capacity = 0;
-    q.front = 0;
-    q.count = 0;
+// Konstruktor przenoszący
+Queue::Queue(Queue &&q) noexcept : Queue() {
+    std::swap(points, q.points);
+    std::swap(capacity, q.capacity);
+    std::swap(front, q.front);
+    std::swap(count, q.count);
 }
 
-Queue::Queue(std::initializer_list<Point> initList) : capacity(initList.size()), front(0), count(initList.size()) {
-    points = new Point[capacity];
+// Konstruktor inicjalizujący za pomocą listy punktów
+Queue::Queue(std::initializer_list<Point> initList) : Queue(initList.size()) {
     int i = 0;
     for (const auto &p : initList) {
         points[i++] = p;
     }
+    count = initList.size();
 }
 
+// Destruktor
 Queue::~Queue() {
     delete[] points;
-}
+    }
 
+
+// operator kopiowania
 Queue& Queue::operator=(const Queue &q) {
     if (this != &q) {
         delete[] points;
@@ -72,9 +94,9 @@ Queue& Queue::operator=(const Queue &q) {
             points[i] = q.points[i];
         }
     }
-    return *this;
+        return *this;
 }
-
+//operator przenoszenia
 Queue& Queue::operator=(Queue &&q) noexcept {
     if (this != &q) {
         delete[] points;
@@ -87,7 +109,7 @@ Queue& Queue::operator=(Queue &&q) noexcept {
         q.front = 0;
         q.count = 0;
     }
-    return *this;
+        return *this;
 }
 
 void Queue::wstaw(const Point &p) {
@@ -97,7 +119,7 @@ void Queue::wstaw(const Point &p) {
     int end = (front + count) % capacity;
     points[end] = p;
     ++count;
-}
+    }
 
 Point Queue::usun() {
     if (count == 0) {
@@ -106,7 +128,7 @@ Point Queue::usun() {
     Point p = points[front];
     front = (front + 1) % capacity;
     --count;
-    return p;
+        return p;
 }
 
 Point Queue::zprzodu() const {

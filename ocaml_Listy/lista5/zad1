@@ -1,0 +1,28 @@
+Mamy gramatykę nad alfabetem {(, )} z produkcjami:
+
+S -> (S)S
+S -> (S
+S -> epsilon
+
+• Język generowany:
+– Są to ciągi nawiasów otwierających ( ) i zamykających ), w których:
+– (S)S odpowiada konstrukcji „if (E) S else S” (if-then-else),
+– (S odpowiada konstrukcji „if (E) S” (tzw. dangling if, bez else),
+– epsilon (pusty ciąg) pozwala zakończyć wyprowadzanie.
+
+• Niejednoznaczność:
+– Przykładem jest ciąg „(()”. Można go interpretować na dwa sposoby:
+1. „else” wiąże się z wewnętrznym if.
+2. „else” wiąże się z zewnętrznym if.
+– To świadczy o niejednoznaczności gramatyki.
+
+• Jednoznaczna gramatyka generująca ten sam język:
+– Rozdzielamy nieterminale na „matched” (M) i „unmatched” (U):
+
+S -> M | U  
+M -> (S)M | epsilon  
+U -> (S  
+
+– M (matched) oznacza konstrukcje, w których każde „(” ma odpowiadające „)”.
+– U (unmatched) oznacza wystąpienie „dangling if”, czyli „(S” bez zamknięcia.
+– Ta gramatyka nie jest niejednoznaczna, ale generuje dokładnie te same ciągi nawiasów co poprzednia.

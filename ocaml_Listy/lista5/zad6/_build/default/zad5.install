@@ -1,0 +1,5 @@
+lib: [
+  "_build/install/default/lib/zad5/META"
+  "_build/install/default/lib/zad5/dune-package"
+  "_build/install/default/lib/zad5/opam"
+]

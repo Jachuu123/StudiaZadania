@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formularz Kontaktowy</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="card">
+    <form class="contact-form" action="#" method="post" novalidate>
+      <h2 class="contact-form__full-width">Formularz Kontaktowy</h2>
+      
+      <div class="contact-form__field">
+        <label for="first-name" class="contact-form__label">Imię <span>*</span></label>
+        <input type="text" id="first-name" name="first-name" class="contact-form__input" required>
+      </div>
+      
+      <div class="contact-form__field">
+        <label for="last-name" class="contact-form__label">Nazwisko</label>
+        <input type="text" id="last-name" name="last-name" class="contact-form__input">
+      </div>
+      
+      <div class="contact-form__field contact-form__full-width">
+        <label for="email" class="contact-form__label">E-mail <span>*</span></label>
+        <input type="email" id="email" name="email" class="contact-form__input" required pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$">
+      </div>
+      
+      <div class="contact-form__field contact-form__full-width">
+        <label for="phone" class="contact-form__label">Telefon</label>
+        <input type="tel" id="phone" name="phone" class="contact-form__input" pattern="\d{9}">
+      </div>
+      
+      <div class="contact-form__field contact-form__full-width">
+        <div class="contact-form__checkbox-container">
+          <input type="checkbox" id="newsletter" name="newsletter" class="contact-form__checkbox">
+          <label for="newsletter">Zapis do newslettera</label>
+        </div>
+      </div>
+      
+      <div class="contact-form__field contact-form__full-width">
+        <label for="reason" class="contact-form__label">Powód kontaktu <span>*</span></label>
+        <select id="reason" name="reason" class="contact-form__select" required>
+          <option value="" disabled selected>Wybierz powód</option>
+          <option value="info">Zapytanie o informacje</option>
+          <option value="support">Wsparcie techniczne</option>
+          <option value="feedback">Opinie i sugestie</option>
+          <option value="other">Inne</option>
+        </select>
+      </div>
+      
+      <div class="contact-form__field contact-form__full-width">
+        <label for="message" class="contact-form__label">Wiadomość <span>*</span></label>
+        <textarea id="message" name="message" rows="5" class="contact-form__textarea" required></textarea>
+      </div>
+      
+      <div class="contact-form__field contact-form__full-width">
+        <button type="submit" class="contact-form__button">Wyślij</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

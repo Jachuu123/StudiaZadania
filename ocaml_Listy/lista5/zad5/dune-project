@@ -1,0 +1,10 @@
+(lang dune 3.14)
+
+(name zad5)
+
+(package
+  (name zad5)
+  (allow_empty)
+  (depends ocaml dune))
+
+(using menhir 2.1)
