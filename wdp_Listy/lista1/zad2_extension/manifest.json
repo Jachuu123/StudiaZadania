@@ -1,0 +1,14 @@
+{
+    "manifest_version": 3,
+    "name": "Podmiana numeru konta",
+    "version": "1.0",
+    "description": "Wtyczka do Opery, która podmienia numer konta na 123123123, zachowując oryginalny numer do wyświetlenia.",
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["content.js"],
+        "run_at": "document_end"
+      }
+    ]
+  }
+  

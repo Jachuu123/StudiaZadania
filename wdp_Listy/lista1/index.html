@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Symulacja podmiany numeru konta</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      background: #fff;
+      padding: 20px;
+      margin: auto;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+    }
+    .output {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      background: #e9e9e9;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Formularz przelewu</h1>
+    <form id="transferForm" action="https://httpbin.org/post" method="POST">
+      <label for="accountNumber">Numer konta:</label><br>
+      <input type="text" id="accountNumber" name="accountNumber" placeholder="Wpisz numer konta" required><br><br>
+      <button type="submit">Wyślij</button>
+    </form>
+<!--
+    <div class="output" id="output" style="display:none;">
+      <h2>Dane przesłane do serwera</h2>
+      <p id="serverData"></p>
+      <h2>Dane widoczne dla użytkownika</h2>
+      <p id="userData"></p>
+    </div>
+  </div>
+-->
+</body>
+</html>
