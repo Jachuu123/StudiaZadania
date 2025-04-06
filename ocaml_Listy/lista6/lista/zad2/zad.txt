@@ -1,0 +1,18 @@
+type expr = 
+  | Int   of int
+  | Binop of bop * expr * expr
+  | Bool  of bool
+  | If    of expr * expr * expr
+  | Let   of ident * expr * expr
+  | Var   of ident
+  | For   of ident * expr * expr * expr     (* for i := n to m do ... end *)
+                                            ident - nazwa zmiennej sterującej pętlą 
+                                            expr1 - wyrażenie określające od czego zaczynamy iterację, początkowa wartość zmiennej
+                                            expr2 - wartość końcową, do której pętla iteruje
+                                            expr3 - ciało pętli
+
+  | Integral of expr * expr * ident * expr  (* ∫ n^k f(x) dx *)
+                                            expr1 - górna granica całkowania
+                                            expr2 - dolna granica całkowania
+                                            indent - nazwa zmiennej względem której całkujemy np.x
+                                            expr3 - wyrażenie całkowane f(x)
