@@ -27,6 +27,8 @@ open Ast
 %token MATCH
 %token WITH
 %token ARROW
+%token SUM
+%token TO
 
 
 %start <Ast.expr> main
@@ -65,6 +67,8 @@ expr:
     | SND expr           { Snd($2) }
     | LPAREN; e = mexpr; RPAREN { e }
     | MATCH; e1 = expr; WITH; LPAREN; x = IDENT; COMMA; y = IDENT; RPAREN; ARROW; e2 = expr { MatchPair(e1, x, y, e2) }
+    | SUM; x = IDENT; EQ; n = expr; TO; m = expr; IN; k = expr { Sum(x, n, m, k) }  (* dopisano: konstrukcja sum x = n to m in k *)
+
     ;
 
 

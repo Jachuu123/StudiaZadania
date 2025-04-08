@@ -34,6 +34,8 @@ rule read =
     | "match" { MATCH }
     | "with" { WITH }
     | "->" { ARROW }
+    | "sum"   { SUM }  (* dopisano: rozpoznanie słowa kluczowego 'sum' *)
+    | "to"    { TO }   (* dopisano: rozpoznanie słowa kluczowego 'to' *)
     | number { INT ( int_of_string (Lexing.lexeme lexbuf)) }
     | ident { IDENT (Lexing.lexeme lexbuf) }
     | eof { EOF }

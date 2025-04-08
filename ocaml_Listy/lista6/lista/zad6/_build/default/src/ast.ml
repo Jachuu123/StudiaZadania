@@ -8,15 +8,19 @@ type bop =
 
 type ident = string
 
-type expr = 
-  | Int   of int
+type expr =
+  | Int of int
   | Binop of bop * expr * expr
-  | Bool  of bool
-  | If    of expr * expr * expr
-  | Let   of ident * expr * expr
-  | Var   of ident
-  | Pair  of expr * expr   (* konstruktor pary, zapis (e1, e2) *)
-  | Fst   of expr          (* eliminator pierwszego elementu: fst p *)
-  | Snd   of expr          (* eliminator drugiego elementu: snd p *)
+  | Bool of bool
+  | If of expr * expr * expr
+  | Let of ident * expr * expr
+  | Var of ident
+  | Unit
+  | Pair of expr * expr
+  | Fst of expr
+  | Snd of expr
   | MatchPair of expr * ident * ident * expr
+  | Sum of ident * expr * expr * expr  (* Nowa konstrukcja: sum x = n to m in k *)
+
+
 

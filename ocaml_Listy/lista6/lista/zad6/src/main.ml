@@ -69,9 +69,9 @@ let rec eval (e : expr) : value =
     (match v with
       | VPair (v1, v2) ->
           eval (subst y (reify v2) (subst x (reify v1) e))
-      | _ -> failwith "match: expression is not a pair")
-              
+      | _ -> failwith "match: expression is not a pair")          
   | Var x -> failwith ("unknown var " ^ x)
+  | _ -> failwith "not implemented"
 
 let interp (s : string) : value =
   eval (parse s)

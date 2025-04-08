@@ -5,7 +5,6 @@
 kolornazwany::kolornazwany()
     : kolor(), nazwa("")
 {
-    // Domyślnie nazwa jest pusta
 }
 
 kolornazwany::kolornazwany(unsigned short rr, unsigned short gg, unsigned short bb, const std::string &n)

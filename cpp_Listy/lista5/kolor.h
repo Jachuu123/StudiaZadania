@@ -22,11 +22,10 @@ public:
     void setG(unsigned short gg);
     void setB(unsigned short bb);
 
-    // Zmiana jasności
+
     void lighten(unsigned short value = 10);
     void darken(unsigned short value = 10);
 
-    // Statyczna funkcja do mieszania kolorów (uśrednianie)
     static kolor average(const kolor &k1, const kolor &k2);
 };
 

@@ -9,17 +9,18 @@ type bop =
 type ident = string
 
 type expr =
-  | Int   of int
+  | Int of int
   | Binop of bop * expr * expr
-  | Bool  of bool
-  | If    of expr * expr * expr
-  | Let   of ident * expr * expr
-  | Var   of ident
+  | Bool of bool
+  | If of expr * expr * expr
+  | Let of ident * expr * expr
+  | Var of ident
   | Unit
-  | Pair  of expr * expr
-  | Fst   of expr
-  | Snd   of expr
+  | Pair of expr * expr
+  | Fst of expr
+  | Snd of expr
   | MatchPair of expr * ident * ident * expr
-  | Sum   of ident * expr * expr * expr
+  | Sum of ident * expr * expr * expr  (* Nowa konstrukcja: sum x = n to m in k *)
+
 
 

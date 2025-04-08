@@ -3,8 +3,10 @@
 
 type token = 
   | WITH
+  | TO
   | TIMES
   | THEN
+  | SUM
   | SND
   | RPAREN
   | PLUS

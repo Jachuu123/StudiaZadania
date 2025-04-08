@@ -23,6 +23,6 @@ Clflags.include_dirs :=
   ; "/root/.opam/default/lib/zed"
   ; "/usr/lib/ocaml/compiler-libs"
   ; "/usr/lib/ocaml/threads"
-  ; "/root/studiaZadania/ocaml_Listy/lista6/lista/zad5/_build/default/src/.let.objs/byte"
+  ; "/root/studiaZadania/ocaml_Listy/lista6/lista/zad6/_build/default/src/.let.objs/byte"
   ];
 UTop_main.main ();
