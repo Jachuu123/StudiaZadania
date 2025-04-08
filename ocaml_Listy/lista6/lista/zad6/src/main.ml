@@ -71,6 +71,7 @@ let rec eval (e : expr) : value =
           eval (subst y (reify v2) (subst x (reify v1) e))
       | _ -> failwith "match: expression is not a pair")          
   | Var x -> failwith ("unknown var " ^ x)
+  | Sum (_,_,_,_) -> failwith "sum: not implemented"
   | _ -> failwith "not implemented"
 
 let interp (s : string) : value =
