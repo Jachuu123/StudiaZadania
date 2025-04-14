@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
-import java.io.*; // dodane dla serializacji
+import java.io.*;
 
 // Rozszerzony interfejs Obserwator o metodę getPriority(), rozszerza Serializable
 interface Obserwator extends Serializable {
@@ -101,7 +101,7 @@ class Pisarz implements Serializable {
 
 class Wydawnictwo implements Obserwator {
     private String nazwa;
-    private int rokZalozenia = 2025; // nowe pole dodane dla (A)
+    private int rokZalozenia = 2025;
     
     public Wydawnictwo(String nazwa) {
         this.nazwa = nazwa;
@@ -132,7 +132,7 @@ class Wydawnictwo implements Obserwator {
     
     @Override
     public int getPriority() {
-        return 2; // wydawnictwa – priorytet 2
+        return 2;
     }
     
     @Override
@@ -155,7 +155,7 @@ class Czytelnik implements Obserwator {
     
     @Override
     public int getPriority() {
-        return 3; // czytelnicy – priorytet 3
+        return 3;
     }
     
     @Override
@@ -178,7 +178,7 @@ class Bibliotekarz implements Obserwator {
     
     @Override
     public int getPriority() {
-        return 4; // bibliotekarze – priorytet 4
+        return 4;
     }
     
     @Override
@@ -187,7 +187,6 @@ class Bibliotekarz implements Obserwator {
     }
 }
 
-// Nowa klasa obserwatora – Krytyk (wymagany nowy typ obserwatora dla (B))
 class Krytyk implements Obserwator {
     private String imie;
     
@@ -202,7 +201,7 @@ class Krytyk implements Obserwator {
     
     @Override
     public int getPriority() {
-        return 1; // krytycy mają najwyższy priorytet
+        return 1;
     }
     
     @Override
@@ -220,6 +219,20 @@ public class Literatura {
                 ObjectInputStream ois = new ObjectInputStream(new FileInputStream(dataFile));
                 Dane dane = (Dane) ois.readObject();
                 ois.close();
+
+                //dane.ksiazki.add(new Ksiazka("Nowa Książka", Arrays.asList(pisarz1)));
+
+
+                Pisarz pisarzLitwos = null;
+                for (Pisarz p : dane.pisarze) {
+                    if (p.getPseudonim().equals("Litwos")) {
+                        pisarzLitwos = p;
+                        break;
+                    }
+                }
+                Pisarz.napiszKsiazke("Dziady", pisarzLitwos);
+                
+
                 System.out.println("Dane odczytane z pliku:");
                 System.out.println("Pisarze:");
                 for (Pisarz p : dane.pisarze) {
@@ -237,7 +250,6 @@ public class Literatura {
         } else {
             // Tworzenie przykładowych danych
             Wydawnictwo wydawnictwo = new Wydawnictwo("Tomasz");
-            // Ustawiamy dodatkowe pole
             wydawnictwo.setRokZalozenia(2020);
             
             Czytelnik czytelnik = new Czytelnik("Jan");
