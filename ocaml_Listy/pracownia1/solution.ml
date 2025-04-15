@@ -1,150 +1,160 @@
 let alpha_num = 3
 let alpha_denom = 4
-let alpha = float_of_int alpha_num /. float_of_int alpha_denom
 
-type 'a tree =
-  | Leaf
-  | Node of 'a tree * 'a * 'a tree
+type 'a tree = Leaf | Node of 'a tree * 'a * 'a tree
+type 'a sgtree = { tree : 'a tree; size : int; max_size: int }
 
-type 'a sgtree = {
-  tree : 'a tree;
-  size : int;
-  max_size : int;
-}
+let alpha_height (n : int) : int =
+  int_of_float (Float.floor ((Float.log (float_of_int n)) /. (Float.log (float_of_int alpha_denom /. float_of_int alpha_num))))
 
-let alpha_height n =
-    if n <= 1 then 0
-    else int_of_float (floor (log (float_of_int n) /. (-. log alpha)))
-  
+let flatten_fast (t: 'a tree): 'a list =
+  let rec it t acc = match t with
+    | Leaf -> acc
+    | Node (l,v,r) -> it l (v :: (it r acc))
+  in it t []
 
-let rec size_of_tree = function
+let rec insert_bst (x: 'a) = function
+  | Leaf -> Node (Leaf, x, Leaf)
+  | Node(left, v, right) ->
+      if x = v then Node(left,v,right)
+      else if x > v then Node(left, v, insert_bst x right)
+      else Node(insert_bst x left, v, right)
+
+let list_split (xs: 'a list): 'a list * 'a list =
+  let rec it i xs acc counter =
+    match xs with
+    | [] -> acc
+    | x::tail ->
+        if i > counter then it i tail ((x :: fst acc), tail) (counter+1)
+        else (List.rev (fst acc), snd acc)
+  in it (List.length xs / 2) xs ([],[]) 0
+
+let list_to_tree (xs: 'a list): 'a tree =
+  let rec it xs acc = match xs with
+    | [] -> acc
+    | _ -> match list_split xs with
+           | left, e::right -> it right (it left (insert_bst e acc))
+           | left, [] -> it left (insert_bst (List.hd xs) acc)
+  in it xs Leaf
+
+let rebuild_balanced (t : 'a tree) : 'a tree =
+  list_to_tree (flatten_fast t)
+
+let empty : 'a sgtree = { tree = Leaf; size = 0; max_size = alpha_height 0 }
+
+let rec find (x : 'a) (sgt : 'a sgtree) : bool =
+  match sgt.tree with
+  | Leaf -> false
+  | Node (left, v, right) ->
+      if v = x then true
+      else if x > v then find x { tree = right; size = sgt.size; max_size = sgt.max_size }
+      else find x { tree = left; size = sgt.size; max_size = sgt.max_size }
+
+let rec size : ('a tree -> int) = function
   | Leaf -> 0
-  | Node (l, _, r) -> 1 + size_of_tree l + size_of_tree r
+  | Node(left, v, right) -> 1 + size left + size right
 
-let rec inorder = function
-  | Leaf -> []
-  | Node (l, x, r) -> inorder l @ (x :: inorder r)
+let find_path (x : 'a) (tree : 'a tree) : ('a tree list) =
+  let rec it x tree path =
+    match tree with
+    | Leaf -> failwith "Element not found!"
+    | Node (left, v, right) ->
+        if v = x then path
+        else if x > v then it x right (right :: path)
+        else it x left (left :: path)
+  in it x tree [tree]
 
-let empty = { tree = Leaf; size = 0; max_size = 0 }
+let left_el (tree: 'a tree): 'a tree =
+  match tree with
+  | Node (l, _, _) -> l
+  | Leaf -> Leaf
 
-let rec bst_find x = function
-  | Leaf -> false
-  | Node (l, y, r) ->
-      if x = y then true
-      else if x < y then bst_find x l
-      else bst_find x r
+let right_el (tree: 'a tree): 'a tree =
+  match tree with
+  | Node (_, _, r) -> r
+  | Leaf -> Leaf
 
-let find x sgt =
-  bst_find x sgt.tree
+let is_ok_tree (t: 'a tree): bool =
+  float_of_int (size (left_el t)) <= (float_of_int alpha_num /. float_of_int alpha_denom) *. float_of_int (size t) &&
+  float_of_int (size (right_el t)) <= (float_of_int alpha_num /. float_of_int alpha_denom) *. float_of_int (size t)
 
-let rec bst_insert x depth = function
-  | Leaf -> Node (Leaf, x, Leaf), depth
-  | Node (l, y, r) ->
-      if x < y then
-        let l', d' = bst_insert x (depth + 1) l in
-        Node (l', y, r), d'
-      else if x > y then
-        let r', d' = bst_insert x (depth + 1) r in
-        Node (l, y, r'), d'
-      else failwith "insert: element already in the tree"
+let rec replace (x: 'a) (p_tree: 'a tree) (tree: 'a tree) =
+  match p_tree with
+  | Leaf -> tree
+  | Node(left, v, right) ->
+      if x > v then Node(left, v, replace x right tree)
+      else if x < v then Node(replace x left tree, v, right)
+      else tree
 
-let rec find_path t x =
-  match t with
-  | Leaf -> [Leaf]
-  | Node (l, y, r) ->
-      if x = y then [t]
-      else if x < y then t :: find_path l x
-      else t :: find_path r x
-
-let is_scapegoat t =
-  match t with
-  | Leaf -> false
-  | Node (l, _, _) ->
-      let total = size_of_tree t in
-      let ln = size_of_tree l in
-      let rn = total - ln - 1 in
-      let nf = float_of_int total in
-      let lf = float_of_int ln in
-      let rf = float_of_int rn in
-      lf > alpha *. nf || rf > alpha *. nf
-
-let rec replace_subtree current scapegoat_subtree rebuilt_subtree =
-  if current == scapegoat_subtree then rebuilt_subtree
-  else
-    match current with
-    | Leaf -> Leaf
-    | Node (l, y, r) ->
-        Node (
-          replace_subtree l scapegoat_subtree rebuilt_subtree,
-          y,
-          replace_subtree r scapegoat_subtree rebuilt_subtree
-        )
-
-let rec build_balanced_array arr start len =
-  if len <= 0 then Leaf
-  else
-    let mid = start + (len / 2) in
-    let left_len = mid - start in
-    let right_len = len - left_len - 1 in
-    let left_tree = build_balanced_array arr start left_len in
-    let x = arr.(mid) in
-    let right_tree = build_balanced_array arr (mid + 1) right_len in
-    Node (left_tree, x, right_tree)
-
-let rebuild_balanced t =
-  let elems = inorder t in
-  let arr = Array.of_list elems in
-  build_balanced_array arr 0 (Array.length arr)
-
-let build_new_root path scapegoat_subtree =
-  let rebuilt_subtree = rebuild_balanced scapegoat_subtree in
-  let root = List.hd path in
-  replace_subtree root scapegoat_subtree rebuilt_subtree
-
-let insert x sgt =
-  let new_tree, inserted_depth = bst_insert x 0 sgt.tree in
-  let new_size = sgt.size + 1 in
-  let new_max_size = if new_size > sgt.max_size then new_size else sgt.max_size in
-  let sgt_temp = { tree = new_tree; size = new_size; max_size = new_max_size } in
-  let max_allowed_height = alpha_height new_size + 1 in
-  if inserted_depth <= max_allowed_height then sgt_temp
-  else
-    let path = find_path new_tree x in
-    let rec find_scapegoat_in_path = function
-      | [] -> None
-      | t :: rest -> if is_scapegoat t then Some t else find_scapegoat_in_path rest
-    in
-    match find_scapegoat_in_path (List.rev path) with
-    | None -> sgt_temp
-    | Some scapegoat_subtree ->
-        let new_root = build_new_root path scapegoat_subtree in
-        { tree = new_root; size = new_size; max_size = new_max_size }
-
-let rec bst_min = function
-  | Leaf -> failwith "bst_min: empty"
-  | Node (Leaf, m, _) -> m
-  | Node (l, _, _) -> bst_min l
-
-let rec bst_remove x = function
-  | Leaf -> failwith "remove: element not found"
-  | Node (l, y, r) ->
-      if x < y then Node (bst_remove x l, y, r)
-      else if x > y then Node (l, y, bst_remove x r)
+let rec repair (path: 'a tree list) =
+  match path with
+  | [] -> failwith "Unexpected behaviour"
+  | t :: tail ->
+      if is_ok_tree t then repair tail
       else
-        match l, r with
-        | Leaf, Leaf -> Leaf
-        | Leaf, _ -> r
-        | _, Leaf -> l
+        match tail with
+        | [] -> t
         | _ ->
-            let m = bst_min r in
-            Node (l, m, bst_remove m r)
+            (match t with
+             | Leaf -> failwith "Unexpected behaviour"
+             | Node(_, v, _) -> replace v (List.nth (List.rev tail) 0) (rebuild_balanced t))
 
-let remove x sgt =
-  let new_tree = bst_remove x sgt.tree in
-  let new_size = sgt.size - 1 in
-  let sgt_temp = { tree = new_tree; size = new_size; max_size = sgt.max_size } in
-  if float_of_int new_size >= alpha *. float_of_int sgt.max_size then sgt_temp
-  else
-    let rebuilt = rebuild_balanced new_tree in
-    { tree = rebuilt; size = new_size; max_size = new_size }
+let rec depth : ('a tree -> int) = function
+  | Leaf -> 0
+  | Node(left, _, right) -> 1 + max (depth left) (depth right)
 
+let insert (x : 'a) (sgt : 'a sgtree): 'a sgtree =
+  let rec it curr_height x t =
+    match t with
+    | Leaf -> (Node (Leaf, x, Leaf), curr_height)
+    | Node(left, v, right) ->
+        if x = v then failwith "Repeating values"
+        else if x > v then
+          let (tr, height) = it (curr_height + 1) x right in
+          (Node(left, v, tr), height)
+        else
+          let (tr, height) = it (curr_height + 1) x left in
+          (Node(tr, v, right), height)
+  in
+  let (new_tree, depth_x) = it 0 x sgt.tree in
+  let fixed_tree =
+    if depth_x > alpha_height (sgt.size + 1) then repair (find_path x new_tree)
+    else new_tree
+  in
+  if depth fixed_tree > alpha_height (sgt.size + 1) + 1 then failwith "Height exceeds alpha_height"
+  else { tree = fixed_tree; size = sgt.size + 1; max_size = (if sgt.size + 1 > sgt.max_size then sgt.size + 1 else sgt.max_size) }
+
+let remove_bst_helper (tree: 'a tree) : ('a tree * 'a) =
+  let rec it tree =
+    match tree with
+    | Leaf -> failwith "Unexpected behaviour"
+    | Node (Leaf, v', rnode) -> (rnode, v')
+    | Node(lnode, v', rnode) ->
+        let (lnode', min) = it lnode in
+        (Node (lnode', v', rnode), min)
+  in it tree
+
+let rec remove_bst (tree: 'a tree) (x: 'a) : 'a tree =
+  match tree with
+  | Leaf -> failwith "Element not found"
+  | Node(left, v, right) ->
+      if x > v then Node(left, v, remove_bst right x)
+      else if x < v then Node(remove_bst left x, v, right)
+      else
+        (match Node(left, v, right) with
+         | Node(Leaf, v, Leaf) -> Leaf
+         | Node(lnode, v, Leaf) -> lnode
+         | Node(Leaf, v, rnode) -> rnode
+         | Node(lnode, v, rnode) ->
+             let (rnode', a) = remove_bst_helper rnode in
+             Node(lnode, a, rnode')
+         | Leaf -> failwith "Unexpected behaviour")
+
+let remove (x : 'a) (sgt : 'a sgtree) : 'a sgtree =
+  let s = sgt.size in
+  let max_size = sgt.max_size in
+  let t = sgt.tree in
+  let tree_removed = remove_bst t x in
+  if float_of_int s -. 1. < float_of_int max_size *. float_of_int alpha_num /. float_of_int alpha_denom
+  then { tree = rebuild_balanced tree_removed; size = s - 1; max_size = size tree_removed }
+  else { tree = tree_removed; size = s - 1; max_size = max_size }
