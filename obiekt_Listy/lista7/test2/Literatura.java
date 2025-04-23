@@ -256,10 +256,9 @@ public class Literatura {
             Bibliotekarz bibliotekarz = new Bibliotekarz("Anna");
             Krytyk krytyk = new Krytyk("Adam");
             
-            Pisarz pisarz1 = new Pisarz("Litwos");
-            Pisarz pisarz2 = new Pisarz("Kowalski");
-            Pisarz pisarz3 = new Pisarz("Adam Mickiewicz");
-            Pisarz pisarz4 = new Pisarz("Henryk Sienkiewicz");
+            Pisarz pisarz1 = new Pisarz("Adam Mickiewicz");
+            Pisarz pisarz2 = new Pisarz("Henryk Sienkiewicz");
+            Pisarz pisarz3 = new Pisarz("Bolesław Prus");
             
             // Dodajemy obserwatorów – kolejność powiadamiania ustali się wg priorytetu:
             pisarz1.dodajObserwatora(krytyk);
@@ -271,10 +270,9 @@ public class Literatura {
             pisarz2.dodajObserwatora(wydawnictwo);
             pisarz2.dodajObserwatora(czytelnik);
             
-            pisarz1.napisz("Trylogia");
-            Pisarz.napiszKsiazke("AiSD", pisarz1, pisarz2);
-            Pisarz.napiszKsiazke("Pan Tadeusz", pisarz3);
-            Pisarz.napiszKsiazke("Quo Vadis", pisarz4);
+            pisarz1.napisz("Pan Tadeusz");
+            Pisarz.napiszKsiazke("Quo vadis", pisarz2);
+            Pisarz.napiszKsiazke("Lalka", pisarz3);
             
             System.out.println("\nKsiążki napisane przez " + pisarz1.getPseudonim() + ":");
             for (Ksiazka k : pisarz1.getKsiazki()) {
@@ -290,6 +288,7 @@ public class Literatura {
             List<Pisarz> pisarze = new ArrayList<>();
             pisarze.add(pisarz1);
             pisarze.add(pisarz2);
+            pisarze.add(pisarz3);
             
             List<Ksiazka> ksiazki = new ArrayList<>();
             ksiazki.addAll(pisarz1.getKsiazki());
