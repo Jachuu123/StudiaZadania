@@ -1,107 +1,105 @@
-document.addEventListener("DOMContentLoaded", () => {
-    let todos = [];
-  
-    const todoListUL = document.getElementById("todo-list");
-  
-    Array.from(todoListUL.children).forEach(li => {
+class TodoApp {
+  constructor() {
+    this.todos = [];
+    this.todoListUL = document.getElementById("todo-list");
+    this.countElement = document.getElementById("count");
+    this.form = document.getElementById("add-todo-form");
+    this.clearAllButton = document.getElementById("todos-clear");
+
+    this.init();
+  }
+
+  init() {
+    this.loadTodos();
+    this.form.addEventListener("submit", (e) => this.addTodo(e));
+    this.clearAllButton.addEventListener("click", () => this.clearTodos());
+    this.render();
+  }
+
+  loadTodos() {
+    Array.from(this.todoListUL.children).forEach((li) => {
       const text = li.querySelector(".todo-name").textContent.trim();
       const completed = li.classList.contains("todo__container--completed");
-      todos.push({ text, completed });
+      this.todos.push({ text, completed });
     });
-  
-    function render() {
-      todoListUL.innerHTML = "";
-  
-      todos.forEach((todo, index) => {
-        const li = document.createElement("li");
-        li.className = "todo__container" + (todo.completed ? " todo__container--completed" : "");
-        li.dataset.index = index;
-  
-        const nameDiv = document.createElement("div");
-        nameDiv.className = "todo-element todo-name";
-        nameDiv.textContent = todo.text;
-        li.appendChild(nameDiv);
-  
+  }
 
-        const upBtn = document.createElement("button");
-        upBtn.className = "todo-element todo-button move-up";
-        upBtn.textContent = "↑";
-        li.appendChild(upBtn);
-  
+  render() {
+    this.todoListUL.innerHTML = "";
+    this.todos.forEach((todo, index) => this.createTodoElement(todo, index));
+    this.updateCount();
+  }
 
-        const downBtn = document.createElement("button");
-        downBtn.className = "todo-element todo-button move-down";
-        downBtn.textContent = "↓";
-        li.appendChild(downBtn);
-  
-        const toggleBtn = document.createElement("button");
-        toggleBtn.className = "todo-element todo-button";
-        toggleBtn.textContent = todo.completed ? "Revert" : "Done";
-        li.appendChild(toggleBtn);
+  createTodoElement(todo, index) {
+    const li = document.createElement("li");
+    li.className = "todo__container" + (todo.completed ? " todo__container--completed" : "");
+    li.dataset.index = index;
 
-        const removeBtn = document.createElement("button");
-        removeBtn.className = "todo-element todo-button";
-        removeBtn.textContent = "Remove";
-        li.appendChild(removeBtn);
+    const nameDiv = document.createElement("div");
+    nameDiv.className = "todo-element todo-name";
+    nameDiv.textContent = todo.text;
+    li.appendChild(nameDiv);
 
-        todoListUL.appendChild(li);
-      });
+    li.appendChild(this.createButton("↑", "move-up", () => this.moveUp(index)));
+    li.appendChild(this.createButton("↓", "move-down", () => this.moveDown(index)));
+    li.appendChild(this.createButton(todo.completed ? "Revert" : "Done", "", () => this.toggleCompletion(index)));
+    li.appendChild(this.createButton("Remove", "", () => this.removeItem(index)));
 
-      const countElement = document.getElementById("count");
-      const remaining = todos.filter(todo => !todo.completed).length;
-      countElement.textContent = remaining;
+    this.todoListUL.appendChild(li);
+  }
+
+  createButton(text, className, onClick) {
+    const button = document.createElement("button");
+    button.className = `todo-element todo-button ${className}`;
+    button.textContent = text;
+    button.addEventListener("click", onClick);
+    return button;
+  }
+
+  updateCount() {
+    const remaining = this.todos.filter((todo) => !todo.completed).length;
+    this.countElement.textContent = remaining;
+  }
+
+  addTodo(event) {
+    event.preventDefault();
+    const input = this.form.querySelector("input[name='todo-name']");
+    const text = input.value.trim();
+    if (text) {
+      this.todos.push({ text, completed: false });
+      input.value = "";
+      this.render();
     }
-  
-    const form = document.getElementById("add-todo-form");
-    form.addEventListener("submit", function(event) {
-      event.preventDefault();
-      const input = form.querySelector("input[name='todo-name']");
-      const text = input.value.trim();
-      if (text !== "") {
-        todos.push({ text, completed: false });
-        input.value = "";
-        render();
-      }
-    });
-  
-    todoListUL.addEventListener("click", function(event) {
-      const target = event.target;
-      if (target.tagName.toLowerCase() !== "button") return;
-      
-      const li = target.closest("li");
-      if (!li) return;
-      
-      const index = parseInt(li.dataset.index, 10);
-      const action = target.textContent.trim();
-      
-      if (action === "Remove") {
-        todos.splice(index, 1);
-        render();
-      } else if (action === "Done") {
-        todos[index].completed = true;
-        render();
-      } else if (action === "Revert") {
-        todos[index].completed = false;
-        render();
-      } else if (action === "↑") {
-        if (index > 0) {
-          [todos[index - 1], todos[index]] = [todos[index], todos[index - 1]];
-          render();
-        }
-      } else if (action === "↓") {
-        if (index < todos.length - 1) {
-          [todos[index], todos[index + 1]] = [todos[index + 1], todos[index]];
-          render();
-        }
-      }
-    });
-  
-    const clearAll = document.getElementById("todos-clear");
-    clearAll.addEventListener("click", function() {
-      todos = [];
-      render();
-    });
-  
-    render();
-  });
-  
+  }
+
+  removeItem(index) {
+    this.todos.splice(index, 1);
+    this.render();
+  }
+
+  toggleCompletion(index) {
+    this.todos[index].completed = !this.todos[index].completed;
+    this.render();
+  }
+
+  moveUp(index) {
+    if (index > 0) {
+      [this.todos[index - 1], this.todos[index]] = [this.todos[index], this.todos[index - 1]];
+      this.render();
+    }
+  }
+
+  moveDown(index) {
+    if (index < this.todos.length - 1) {
+      [this.todos[index], this.todos[index + 1]] = [this.todos[index + 1], this.todos[index]];
+      this.render();
+    }
+  }
+
+  clearTodos() {
+    this.todos = [];
+    this.render();
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => new TodoApp());
