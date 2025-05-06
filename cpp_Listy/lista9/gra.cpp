@@ -1,9 +1,3 @@
-// Peg Solitaire (Samotnik) – console implementation
-// Zadanie 9 – course C++, May 2025 – University of Wrocław
-// Author: ChatGPT (generated 2025‑05‑04)
-// Build: g++ -std=c++17 -O2 solitaire.cpp -o solitaire
-// Usage: ./solitaire
-
 #include <iostream>
 #include <iomanip>
 #include <array>
@@ -12,9 +6,6 @@
 #include <chrono>
 #include <string>
 
-// ────────────────────────────────────────────────────────────────────────────────
-// Exceptions
-// ────────────────────────────────────────────────────────────────────────────────
 class exception_samotnika : public std::logic_error {
 public:
     using std::logic_error::logic_error;
@@ -35,26 +26,21 @@ public:
     quit_game() : exception_samotnika("Użytkownik zakończył grę") {}
 };
 
-// ────────────────────────────────────────────────────────────────────────────────
-// Model: board state
-// ────────────────────────────────────────────────────────────────────────────────
 class Board {
 public:
     enum Cell : char { INVALID = ' ', EMPTY = '.', PEG = 'O' };
-    static constexpr int N = 7;               // logical board 7×7
+    static constexpr int N = 7;
 
     Board() {
-        // Initialise the classic English peg‑solitaire cross (33 valid fields)
         for (auto &row : cells) row.fill(INVALID);
         auto set_valid = [&](int r, int c) { cells[r][c] = PEG; };
 
-        for (int r = 2; r <= 4; ++r)          // full middle rows
+        for (int r = 2; r <= 4; ++r)
             for (int c = 0; c < N; ++c)
                 set_valid(r, c);
-        for (int r = 0; r < N; ++r)           // full middle columns
+        for (int r = 0; r < N; ++r)
             for (int c = 2; c <= 4; ++c)
                 set_valid(r, c);
-        // Empty the centre to start
         cells[3][3] = EMPTY;
     }
 
@@ -91,9 +77,9 @@ public:
         int r_mid = r + dr, c_mid = c + dc;
         int r_dst = r + 2 * dr, c_dst = c + 2 * dc;
 
-        cells[r][c] = EMPTY;      // source emptied
-        cells[r_mid][c_mid] = EMPTY; // jumped peg removed
-        cells[r_dst][c_dst] = PEG;   // destination filled
+        cells[r][c] = EMPTY;
+        cells[r_mid][c_mid] = EMPTY;
+        cells[r_dst][c_dst] = PEG;
     }
 
     int peg_count() const {
@@ -131,13 +117,10 @@ private:
     std::array<std::array<Cell, N>, N> cells;
 };
 
-// ────────────────────────────────────────────────────────────────────────────────
-// Controller / helpers
-// ────────────────────────────────────────────────────────────────────────────────
 struct Command {
-    int row;    // 0‑based
-    int col;    // 0‑based
-    char dir;   // L/R/U/D
+    int row;
+    int col;
+    char dir;
 };
 
 Command parse_command(const std::string &input) {
@@ -165,7 +148,7 @@ Command parse_command(const std::string &input) {
         if (row_char2) {
             if (!std::isdigit(row_char2))
                 throw invalid_command("Niepoprawny numer wiersza");
-            row = (row + 1) * 10 + (row_char2 - '1'); // never occurs (rows 1‑7)
+            row = (row + 1) * 10 + (row_char2 - '1');
         }
     } else {
         throw invalid_command("Oczekiwano cyfry w wierszu");
@@ -180,9 +163,6 @@ Command parse_command(const std::string &input) {
     return { row, col, dir_char };
 }
 
-// ────────────────────────────────────────────────────────────────────────────────
-// Main application
-// ────────────────────────────────────────────────────────────────────────────────
 int main() {
     using clock = std::chrono::steady_clock;
     auto t0 = clock::now();
@@ -216,7 +196,6 @@ int main() {
         }
     }
 
-    // Summary
     board.print();
     int pegs = board.peg_count();
     std::cout << "Pozostało pionków: " << pegs << "\n";
