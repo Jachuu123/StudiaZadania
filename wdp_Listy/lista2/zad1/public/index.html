@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Prototyp Banku</title>
+<!-- Prosta, restrykcyjna CSP – pozwalamy tylko na zasoby z własnej domeny -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<h1>Prototyp Banku</h1>
+
+<nav id="nav">
+  <button id="btnSignup">Załóż konto</button>
+  <button id="btnLogin">Zaloguj</button>
+  <button id="btnReset">Reset hasła</button>
+</nav>
+
+<section id="signup">
+  <h2>Zakładanie konta</h2>
+  <form id="signupForm" autocomplete="off">
+    <label>Login <input id="suLogin" required pattern="[A-Za-z0-9]{3,20}" title="3-20 znaków alfanum."></label>
+    <label>Email <input id="suEmail" type="email" required></label>
+    <label>Hasło <input id="suPass" type="password" required minlength="8"></label>
+    <label>Powtórz hasło <input id="suPass2" type="password" required></label>
+    <button type="submit">Utwórz konto</button>
+  </form>
+  <div id="signupMsg" class="msg"></div>
+</section>
+
+<section id="login" hidden>
+  <h2>Logowanie</h2>
+  <form id="loginForm" autocomplete="off">
+    <label>Login <input id="liLogin" required></label>
+    <label>Hasło <input id="liPass" type="password" required></label>
+    <button type="submit">Zaloguj</button>
+  </form>
+  <div id="loginMsg" class="msg"></div>
+</section>
+
+<section id="reset" hidden>
+  <h2>Reset hasła</h2>
+  <form id="resetForm" autocomplete="off">
+    <label>Email <input id="reEmail" type="email" required></label>
+    <button type="submit">Wyślij link resetu</button>
+  </form>
+  <div id="resetMsg" class="msg"></div>
+</section>
+
+<section id="newpass" hidden>
+  <h2>Ustaw nowe hasło</h2>
+  <form id="newpassForm" autocomplete="off">
+    <label>Nowe hasło <input id="npPass" type="password" required minlength="8"></label>
+    <label>Powtórz <input id="npPass2" type="password" required></label>
+    <button type="submit">Ustaw hasło</button>
+  </form>
+  <div id="newpassMsg" class="msg"></div>
+</section>
+
+<script src="/app.js" defer></script>
+</body>
+</html>
