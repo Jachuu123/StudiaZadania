@@ -1,0 +1,111 @@
+
+DOWODY INDUKCYJNE DLA FUNKCJI NA LISTACH
+=======================================
+
+------------------------------------------------------------
+Definicje wspólne
+------------------------------------------------------------
+-- konkatenacja
+[] ++ ys         = ys
+(x :: xs) ++ ys  = x :: (xs ++ ys)
+
+-- mapowanie
+map f []         = []
+map f (x :: xs)  = f x :: map f xs
+
+-- odwracanie
+rev []           = []
+rev (x :: xs)    = rev xs ++ [x]
+
+
+============================================================
+ZADANIE 1 — Złożenie dwóch map
+============================================================
+Teza
+----
+Dla każdej listy xs zachodzi
+
+    map f (map g xs) = map (fun x -> f (g x)) xs
+
+Dowód (indukcja po xs)
+----------------------
+
+1. Przypadek bazowy  xs = []  
+
+       map f (map g []) = map f []          -- definicja map
+                        = []                -- baza map
+                        = map (fun x -> f (g x)) []   -- baza map
+
+2. Założenie indukcyjne  
+   Dla pewnej listy t:
+
+       map f (map g t) = map (fun x -> f (g x)) t
+
+3. Krok indukcyjny  xs = h :: t  
+
+       map f (map g (h :: t))
+     = map f (g h :: map g t)                 -- definicja map
+     = f (g h) :: map f (map g t)             -- definicja map
+     = f (g h) :: map (fun x -> f (g x)) t    -- z.i.
+     = map (fun x -> f (g x)) (h :: t)        -- definicja map
+
+Baza i krok indukcyjny są spełnione, więc teza jest prawdziwa
+dla wszystkich list xs. ∎
+
+
+============================================================
+ZADANIE 2 — rev jest inwolucją
+============================================================
+Teza
+----
+Dla każdej listy xs
+
+    rev (rev xs) = xs
+
+
+Lemat pomocniczy  (rev_app_distr)
+---------------------------------
+Dla wszystkich xs, ys:
+
+    rev (xs ++ ys) = rev ys ++ rev xs
+
+Dowód lematu (indukcja po xs)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Baza  xs = []  
+
+      rev ([] ++ ys) = rev ys
+                     = rev ys ++ [] = rev ys ++ rev []
+
+* Krok  xs = h :: t  
+
+      rev ((h :: t) ++ ys)
+    = rev (h :: (t ++ ys))              -- definicja ++
+    = rev (t ++ ys) ++ [h]              -- definicja rev
+    = (rev ys ++ rev t) ++ [h]          -- z.i.
+    = rev ys ++ (rev t ++ [h])          -- łączność ++
+    = rev ys ++ rev (h :: t)            -- definicja rev
+
+Lemat udowodniony. ∎
+
+
+Dowód tezy głównej (indukcja po xs)
+-----------------------------------
+
+1. Przypadek bazowy  xs = []  
+
+       rev (rev []) = rev [] = []
+
+2. Założenie indukcyjne  
+   Dla listy t:  rev (rev t) = t
+
+3. Krok indukcyjny  xs = h :: t  
+
+       rev (rev (h :: t))
+     = rev (rev t ++ [h])            -- definicja rev
+     = rev [h] ++ rev (rev t)        -- lemat
+     = [h] ++ t                      -- definicja rev, z.i.
+     = h :: t                        -- definicja ++
+
+Spełniono bazę i krok indukcyjny, zatem dla każdej listy xs
+zachodzi  rev (rev xs) = xs. ∎
