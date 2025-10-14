@@ -1,0 +1,7 @@
+
+
+
+Pamięć ferrytowa w komputerze Odra 1204 (i wcześniejszej 1024) była główną pamięcią operacyjną – zbudowaną z tysięcy
+drobnych rdzeni ferrytowych w kształcie pierścieni. Każdy rdzeń przechowywał jeden bit informacji dzięki zmianie
+kierunku namagnesowania. Odczyt odbywał się przez wykrycie impulsu prądu w cewce, a zapis – przez przepływ prądu
+w dwóch przecinających się przewodach (X i Y), które „przełączały” wybrany rdzeń.
