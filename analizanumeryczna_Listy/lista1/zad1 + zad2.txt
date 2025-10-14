@@ -1,5 +1,12 @@
 
-
+Odbiór pierwszego wrocławskiego komputera Odra 1001 odbył się w czerwcu 1961 roku 
+przed komisją państwową złożoną z przedstawicieli ministerstw, PZPR i Politechniki
+Wrocławskiej. Ponieważ maszyna miała problemy techniczne, zaprezentowano prosty
+program Ryszarda Wrony, który jedynie kopiował taśmę perforowaną. Matematycy wcześniej
+przygotowali wydruki tablic sinusów i rozdali je komisji, udając, że komputer je
+właśnie obliczył.Pokaz wypadł świetnie — rektor Szparkowski zachwycił się
+„dokładnością” wyników, a nikt nie zauważył oszustwa. Mimo to Elwro otrzymało
+nagrodę państwową za sukces
 
 Pamięć ferrytowa w komputerze Odra 1204 (i wcześniejszej 1024) była główną pamięcią operacyjną – zbudowaną z tysięcy
 drobnych rdzeni ferrytowych w kształcie pierścieni. Każdy rdzeń przechowywał jeden bit informacji dzięki zmianie
