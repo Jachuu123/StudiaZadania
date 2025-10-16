@@ -16,4 +16,4 @@ for i in range(11, 21):
     x_d = np.float64(x)
     f_double = np.float64(f(x_d))
 
-    print(f"{i:2d}  1e-{i:<2d}   {float(f_single): .12g}   {float(f_double): .12g}")
+    print(f"{i:2d}  1e-{i:<2d}   {float(f_single)}   {float(f_double)}")
