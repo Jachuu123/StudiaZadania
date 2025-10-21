@@ -1,0 +1,61 @@
+L2.3 – Odstęp między dwiema największymi dodatnimi liczbami double
+==================================================================
+
+Założenie z treści:
+- Odległość między kolejnymi liczbami naturalnymi = 1 km (to tylko „skala”).
+- Interesuje nas arytmetyka IEEE 754 double (binary64).
+
+1) Co to znaczy „odstęp między dwiema największymi liczbami”?
+------------------------------------------------------------
+Chodzi o najmniejszą różnicę (czyli krok) między dwiema kolejnymi
+liczbami, jakie da się zapisać w formacie double — tuż przed osiągnięciem
+wartości nieskończonej (+∞).
+
+2) Wzór na odstęp między kolejnymi liczbami w pobliżu 2^e
+---------------------------------------------------------
+Dla typu double (mantysa ma 52 bity):
+    odstęp = 2^(e - 52)
+
+Im większy wykładnik e, tym liczby są dalej od siebie.
+
+3) Największy wykładnik dla liczb skończonych
+---------------------------------------------
+W polu wykładnika wartość 2047 oznacza ∞ lub NaN, więc największy
+skończony wykładnik ma wartość 2046.
+Po odjęciu biasu (1023) otrzymujemy:
+    e_max = 2046 - 1023 = 1023
+
+4) Odstęp przy największych liczbach double
+-------------------------------------------
+Podstawiamy e = 1023:
+    odstęp_max = 2^(1023 - 52) = 2^971
+
+W przybliżeniu:
+    2^971 ≈ 1.99 × 10^292
+
+5) Porównanie z odległością Ziemia–Słońce (1 AU)
+------------------------------------------------
+Z treści: średnia odległość ≈ 1.5 × 10^8 km.
+
+Skoro 1 jednostka = 1 km, to:
+    odstęp_max ≈ 1.99 × 10^292 km
+    AU ≈ 1.5 × 10^8 km
+
+Stosunek:
+    AU / odstęp_max ≈ 7.5 × 10^(-285)
+
+6) Wniosek
+----------
+W pobliżu największych liczb double różnica między sąsiadami jest
+ogromna – około 10^292 km. Dla porównania, odległość Ziemia–Słońce
+(1.5×10^8 km) jest przy tym praktycznie zerowa. Oznacza to, że
+dla bardzo dużych wartości dokładność względna liczb zmiennopozycyjnych
+gwałtownie maleje.
+
+7) Zwięzła tabelka wartości
+---------------------------
+Wielkość                              Wartość (w przybliżeniu)
+-------------------------------------------------------------------
+Najmniejszy odstęp przy max double    1.99 × 10^292 km
+Średnia odległość Ziemia–Słońce       1.50 × 10^8 km
+Stosunek (AU / odstęp)                7.5 × 10^(-285)

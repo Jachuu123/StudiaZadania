@@ -1,0 +1,75 @@
+L2.4 – Incydent Patriot (1991)
+==============================
+
+Temat:
+------
+Błąd numeryczny w systemie rakietowym Patriot podczas Wojny w Zatoce Perskiej
+(25 lutego 1991, Dhahran – Arabia Saudyjska).
+
+1) Co się wydarzyło?
+--------------------
+- System Patriot nie przechwycił nadlatującej rakiety Scud.
+- Pocisk trafił w koszary armii USA – zginęło 28 żołnierzy, ok. 100 zostało rannych.
+- Przyczyną był błąd w oprogramowaniu systemu kierowania ogniem, związany z błędem
+  numerycznym w obliczaniu czasu pracy systemu.
+
+2) Na czym polegał błąd numeryczny?
+-----------------------------------
+- Komputer mierzył czas w tzw. "tikach" (jednostkach po 0.1 sekundy).
+- Czas w sekundach obliczano mnożąc liczbę tików przez 0.1.
+- Wykorzystywano arytmetykę o ograniczonej precyzji (stałoprzecinkową).
+- Liczba 0.1 w systemie binarnym ma nieskończony rozwój: 0.0001100110011...(2)
+  i nie da się jej zapisać dokładnie w skończonej liczbie bitów.
+- Po wielu godzinach działania drobny błąd zaokrąglenia sumował się i rósł.
+
+3) Skutki błędu
+---------------
+- System przewidywał położenie celu na podstawie czasu.
+- Narastający błąd czasu powodował, że radar "okno detekcji" przesuwało się
+  w niewłaściwe miejsce.
+- Po ok. 100 godzinach pracy błąd wynosił kilkaset milisekund, co przy prędkości
+  rakiety (kilka tysięcy m/s) oznaczało błąd położenia rzędu kilkuset metrów.
+- W efekcie system "patrzył" obok rzeczywistego toru lotu Scuda i nie odpalił
+  pocisku przechwytującego.
+
+4) Skąd się wziął błąd 0.1?
+---------------------------
+- W systemie binarnym 0.1(10) = 0.00011001100110011...(2) – okresowo, nieskończone.
+- Komputer musiał ten zapis uciąć (np. po 24 bitach).
+- Powstały więc mały błąd przy każdym przeliczeniu czasu.
+- Po wielu godzinach działania systemu błąd rósł w sposób liniowy.
+
+5) Skala błędu
+--------------
+- Po 100 godzinach działania systemu przesunięcie czasu wynosiło ok. 0.34 s.
+- Przy prędkości pocisku Scud (~1700 m/s) daje to błąd pozycji ok. 580 metrów.
+- W praktyce to wystarczyło, aby radar "nie widział" nadlatującego pocisku.
+
+6) Wnioski inżynierskie
+-----------------------
+- Unikać reprezentowania czasu za pomocą ułamków, które nie mają dokładnego zapisu
+  binarnego (np. 0.1, 0.2, 0.3...).
+- Stosować odpowiednią precyzję (np. liczby zmiennopozycyjne double zamiast
+  stałoprzecinkowych 24-bitowych).
+- Projektować systemy tak, by mogły być okresowo resetowane lub synchronizowane.
+- Uwzględniać długość pracy systemu przy analizie błędów numerycznych.
+- W systemach krytycznych zawsze testować długotrwałe działanie i akumulację błędu.
+
+7) Zwięzła tabela faktów
+------------------------
+Aspekt                        Opis
+------------------------------------------------------------------
+Miejsce i data                Dhahran (Arabia Saudyjska), 25 II 1991
+Skutek                       28 zabitych, ~100 rannych
+Źródło błędu                  Akumulacja błędu zaokrąglenia czasu (0.1 s)
+Rodzaj błędu                  Niedokładna reprezentacja 0.1 w systemie binarnym
+Skutek numeryczny             Czas przesunięty o ~0.3 s po 100 h pracy
+Efekt fizyczny                Błąd pozycji celu ~580 m, brak przechwycenia
+Wnioski                      Większa precyzja, synchronizacja, reset, testy długie
+
+8) Wniosek końcowy
+------------------
+Incydent Patriot pokazuje, że nawet bardzo mały błąd reprezentacji liczbowej,
+jeśli działa przez długi czas, może urosnąć do wartości krytycznej.
+W systemach czasu rzeczywistego trzeba kontrolować akumulację błędu i zapewniać
+mechanizmy zapobiegające jego narastaniu (reset, korekcja, odpowiednia precyzja).

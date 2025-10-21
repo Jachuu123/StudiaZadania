@@ -1,0 +1,79 @@
+L2.5 – Katastrofa rakiety Ariane 5 (1996)
+=========================================
+
+Temat:
+------
+Analiza przyczyn awarii pierwszego lotu rakiety Ariane 5,
+która zakończyła się eksplozją 37 sekund po starcie.
+
+1) Co się wydarzyło?
+--------------------
+- 4 czerwca 1996 r. rakieta Ariane 5 wystartowała z Gujany Francuskiej.
+- Po 37 sekundach lotu rakieta zeszła z kursu, rozpadła się i eksplodowała.
+- Straty wyniosły około 370 milionów dolarów.
+- Wszystko spowodował błąd w oprogramowaniu systemu nawigacji.
+
+2) Gdzie był błąd?
+------------------
+- Oprogramowanie systemu nawigacyjnego (Inertial Reference System – IRS)
+  zawierało fragment kodu przeniesiony z wcześniejszej rakiety Ariane 4.
+- W nim przeliczano prędkość poziomą rakiety z typu 64-bitowego (double)
+  na 16-bitowy (signed integer).
+- W Ariane 5 wartości tej prędkości były znacznie większe niż w Ariane 4.
+- Konwersja z typu 64-bit na 16-bit spowodowała przepełnienie (overflow),
+  czyli liczba nie mieściła się w zakresie zmiennej całkowitej.
+
+3) Co się stało po przepełnieniu?
+---------------------------------
+- Po wystąpieniu przepełnienia oprogramowanie zgłosiło wyjątek (błąd systemowy).
+- System zapasowy wykonał ten sam błędny kod i również się wyłączył.
+- Komputer pokładowy uznał błędne dane z czujników za prawidłowe,
+  co spowodowało, że sterowanie rakietą zaczęło reagować na fałszywe informacje.
+- Rakieta skręciła w bok, zaczęła się rozpadać i została zniszczona przez system
+  bezpieczeństwa.
+
+4) Dlaczego to się stało?
+-------------------------
+- Kod z Ariane 4 został użyty ponownie bez sprawdzenia jego poprawności
+  w nowych warunkach (Ariane 5 miała dużo większe przyspieszenia).
+- Programiści założyli, że wartości zmiennych nie przekroczą zakresu 16-bitowego
+  całkowitego – co było prawdą w Ariane 4, ale nie w Ariane 5.
+- Brak odpowiedniego testu i obsługi błędu przepełnienia.
+
+5) Skutki błędu (liczbowo)
+--------------------------
+- Przepełnienie nastąpiło przy wartości prędkości poziomej ok. 65535 jednostek,
+  bo 16-bit signed integer może przechowywać liczby z zakresu od -32768 do 32767.
+- W Ariane 5 wartość była większa niż 32767, więc nastąpiło przepełnienie
+  i błędna interpretacja liczby.
+
+6) Wnioski inżynierskie
+-----------------------
+- Nie należy bezkrytycznie kopiować kodu z innych systemów bez analizy,
+  czy jego założenia nadal obowiązują.
+- Należy testować oprogramowanie w pełnym zakresie możliwych danych wejściowych.
+- Programy w systemach krytycznych powinny mieć:
+  • obsługę błędów (try-catch, fallback),
+  • walidację zakresu danych,
+  • niezależne systemy zapasowe z różnym kodem.
+- Drobny błąd konwersji typów może doprowadzić do katastrofy systemowej.
+
+7) Zwięzła tabela faktów
+------------------------
+Aspekt                        Opis
+------------------------------------------------------------------
+Data i miejsce                4 czerwca 1996, Kourou, Gujana Francuska
+Rakieta                       Ariane 5, pierwszy lot
+Czas awarii                   37 sekund po starcie
+Źródło błędu                  Przepełnienie przy konwersji z float64 → int16
+Powód                        Prędkość pozioma większa niż w Ariane 4
+Skutek                       Błędne dane z IRS, utrata kontroli, eksplozja
+Straty                        Około 370 mln USD
+Nauka z incydentu             Weryfikacja kodu, testy zakresu, niezależność systemów
+
+8) Wniosek końcowy
+------------------
+Katastrofa Ariane 5 była skutkiem błędu konwersji typu liczbowego
+i niewłaściwego ponownego użycia oprogramowania z Ariane 4 bez dostosowania
+do nowych warunków. Pokazuje to, że nawet pozornie drobny błąd w arytmetyce
+i brak analizy zakresu danych może doprowadzić do zniszczenia całego systemu.

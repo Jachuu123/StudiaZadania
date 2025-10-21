@@ -1,0 +1,82 @@
+
+========================
+Co to jest IEEE 754
+-----------------------
+
+IEEE 754 to standard zapisu liczb zmiennopozycyjnych, czyli sposób, w jaki komputer
+przechowuje i przetwarza liczby rzeczywiste.
+
+Każda liczba składa się z trzech pól bitowych:
+
+Część          Liczba bitów (double)    Znaczenie
+------------------------------------------------------------
+sign           1                        znak liczby (0 = +, 1 = –)
+exponent       11                       wykładnik z biasem (przesunięciem = 1023)
+fraction       52                       część ułamkowa (mantysa)
+
+Wzór dla liczb normalnych:
+
+x = (-1)^(sign) * (1 + f) * 2^(E - 1023)
+
+gdzie:
+  f – to ułamek z pola mantysy,
+  E – wartość wykładnika w kodzie binarnym.
+
+
+2️⃣ Liczby subnormalne (denormalne)
+-----------------------------------
+
+Liczby subnormalne to bardzo małe liczby, mniejsze od najmniejszej liczby „normalnej”.
+
+Jak komputer je rozpoznaje:
+- wszystkie bity wykładnika = 0
+- ale mantysa ≠ 0
+
+Wtedy komputer wie, że liczba jest subnormalna i używa innego wzoru:
+
+x = (-1)^(sign) * (0 + f) * 2^(1 - 1023)
+
+czyli bez ukrytej jedynki przed mantysą.
+
+Dzięki temu przejście od najmniejszej liczby do zera jest płynne
+(tzw. "gradual underflow").
+W tym obszarze odległość między sąsiednimi liczbami jest stała w sensie absolutnym.
+
+Przykłady (dla double):
+- najmniejsza normalna:   2.23 × 10^-308
+- najmniejsza subnormalna: 4.94 × 10^-324
+
+
+3️⃣ Wartości specjalne
+----------------------
+
+exponent       fraction        Znaczenie
+-----------------------------------------------
+000...0        000...0         +0 lub –0
+000...0        ≠ 0             liczba subnormalna
+111...1        000...0         +∞ lub –∞
+111...1        ≠ 0             NaN (Not a Number)
+
+
+4️⃣ Różnice względem modelu teoretycznego
+-----------------------------------------
+
+Cecha           Model teoretyczny        IEEE 754
+-------------------------------------------------------------
+Zero            jedno 0                  +0 i –0
+Subnormale      brak                     są – płynne zejście do 0
+∞, NaN          brak                     są zdefiniowane
+Dokładność      idealna                  skończona (ok. 15–16 cyfr w double)
+Zaokrąglanie    do najbliższej           kilka trybów + wyjątki
+
+
+5️⃣ Wniosek
+-----------
+
+Standard IEEE 754 określa, jak komputer zapisuje liczby rzeczywiste —
+przez bity znaku, wykładnika i mantysy, z ustalonym zaokrąglaniem i wyjątkami.
+Dzięki temu obliczenia są powtarzalne na wszystkich komputerach.
+
+Liczby subnormalne pojawiają się wtedy, gdy wykładnik = 0, ale mantysa ≠ 0;
+pozwalają one płynnie zejść do zera i uniknąć nagłej utraty precyzji
+przy bardzo małych liczbach.
