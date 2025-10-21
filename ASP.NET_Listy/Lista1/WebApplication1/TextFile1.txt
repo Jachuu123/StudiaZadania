@@ -1,0 +1,41 @@
+﻿Różnice: IIS Express (dev) vs IIS (prod)
+
+IIS Express
+
+Serwer deweloperski uruchamiany przez Visual Studio.
+
+Działa pod moim kontem użytkownika (te same uprawnienia co ja).
+
+Start/stop razem z projektem; zero ręcznej administracji.
+
+Uproszczona konfiguracja; brak pełnej izolacji i zaawansowanych funkcji.
+
+Typowe użycie: szybkie uruchamianie projektu lokalnie na wybranym porcie (np. http://localhost:5400/ ustawionym w Project → Properties → Web → Project URL).
+
+IIS (Internet Information Services)
+
+Serwer produkcyjny działający jako usługa systemu Windows.
+
+Każda aplikacja działa w puli aplikacji z własną tożsamością konta (oddzielne uprawnienia do plików/zasobów).
+
+Pełne funkcje: bindingi/host-headery, logi, limity, recycling, izolacja wielu witryn, HTTPS, moduły, itd.
+
+Typowe użycie: hostowanie aplikacji dla użytkowników (lokalnie lub na serwerze).
+
+Sedno: IIS Express = szybko na devie pod moją tożsamością; IIS = bezpiecznie i produkcyjnie, z izolacją i administracją.
+
+Publikacja: co wybrać i kiedy
+
+Ta sama maszyna (dev i prod lokalnie):
+
+Najwygodniejsze: Folder (File System).
+Visual Studio kopiuje gotowe pliki do wskazanego folderu witryny IIS (np. C:\inetpub\zad4).
+Plusy: brak logowania, brak agentów, działa od razu.
+
+Zdalny serwer produkcyjny:
+
+Web Deploy (MSDeploy) – najlepsza opcja, jeśli na serwerze jest włączona usługa Web Deployment i mam dostęp (adres, użytkownik, hasło/certyfikat). Zapewnia różnicowe wdrożenia, ustawienia IIS, parametryzację.
+
+FTP/FTPS – gdy na serwerze jest tylko FTP. Publikacja plików bez zmian konfiguracji IIS (resztę robi admin/ja ręcznie).
+
+Kopia / ZIP + ręczne skopiowanie – ostateczność, gdy nie ma Web Deploy/FTP.
