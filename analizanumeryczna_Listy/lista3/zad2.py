@@ -1,39 +1,24 @@
 import numpy as np
+import math
 
 def pierwiastki_kwadratowe_naiwne(a, b, c):
     D2 = b*b - 4*a*c
     D = np.sqrt(max(D2, 0.0))  # realnie, bez zespolonych
     return ((-b - D)/(2*a), (-b + D)/(2*a))
 
-def pierwiastki_kwadratowe_stabilne(a, b, c):
-    s = max(abs(a), abs(b), abs(c))
-    if s == 0:
-        return (0.0, 0.0)
-    A, B, C = a/s, b/s, c/s
-
-    # Δ z tolerancją na zaokrąglenia (gdy jest minimalnie ujemne)
-    D2 = B*B - 4*A*C
-    tol = 64*np.finfo(float).eps * (B*B + 4*abs(A*C))
-    if D2 < 0 and abs(D2) <= tol:
-        D2 = 0.0
-    if D2 < 0:
-        raise ValueError("Δ < 0 (dla tej wersji oczekujemy pierwiastków rzeczywistych)")
-
-    D = np.sqrt(D2)
-
-    znak = np.sign(B) if B != 0 else 1.0
-    q = -0.5*(B + znak*D)
-    if q == 0.0:                 # dokładnie podwójny pierwiastek
-        x = (-B)/(2*A)
-        return (x, x)
-
-    x1 = q/A
-    x2 = C/q
+def pierwiastki_stabilnie(a, b, c):
+    D = b*b - 4*a*c
+    if D < 0:
+        return float('nan'), float('nan')
+    sD = math.sqrt(D)
+    q = -0.5 * (b + math.copysign(sD, b))   # stabilne
+    x1 = q / a
+    x2 = c / q
     return (x1, x2)
 
 def wypisz(a,b,c,opis):
     xn = pierwiastki_kwadratowe_naiwne(a,b,c)
-    xs = pierwiastki_kwadratowe_stabilne(a,b,c)
+    xs = pierwiastki_stabilnie(a,b,c)
     print(f"\n{opis}:")
     print(f"  szkolnie:  x1={xn[0]:.16e}, x2={xn[1]:.16e}")
     print(f"  stabilnie: x1={xs[0]:.16e}, x2={xs[1]:.16e}")
